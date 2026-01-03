@@ -12,5 +12,13 @@
     {% else %}
         {{ post.title }}
     {% endif %}
+    <br>
+    
 {% endfor %}
+<br>
+<hr>
+<br>
+{% if user.is_authenticated %}
+    <a href="{% url 'blog:post_create' %}">Create Post</a>
+{% endif %}
 {% endblock %}  

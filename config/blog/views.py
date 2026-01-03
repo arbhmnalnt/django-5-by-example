@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from .forms import PostForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def post_edit(request, slug):
@@ -13,7 +14,7 @@ def post_edit(request, slug):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_form.html',{'form': form} )
-
+@login_required
 def post_create(request):
     if request.method =='POST':
         form = PostForm(request.POST)
