@@ -4,12 +4,13 @@
 {% block content %}
 <h1>Posts</h1>
 
-{% for post in posts %} 
-    <h2>
+{% for post in posts %}
+    {% if post.slug %}
         <a href="{% url 'blog:post_detail' post.slug %}">
             {{ post.title }}
         </a>
-    </h2>
-    <p>{{ post.body|truncatewords:20 }}</p>
+    {% else %}
+        {{ post.title }}
+    {% endif %}
 {% endfor %}
 {% endblock %}  
