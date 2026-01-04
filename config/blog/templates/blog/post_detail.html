@@ -8,4 +8,28 @@
 <p>{{ post.created }}</p>
 <p>{{ post.body }}</p>
 <a href="{% url 'blog:post_list' %}">Back</a>
+<hr>
+<h3>Comments</h3>
+
+{% for comment in post.comments.all %}
+    {% if comment.active %}
+        <p>
+            <strong>{{ comment.name }}</strong>
+            <br>
+            {{ comment.body }}
+        </p>
+        <hr>
+    {% endif %}
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<h3>Add a comment</h3>
+
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Add comment</button>
+</form>
+
 {% endblock %}
