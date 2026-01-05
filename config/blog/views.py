@@ -4,6 +4,7 @@ from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 # from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
+from django.db.models import Q
 # Create your views here.
 
 def post_edit(request, slug):
@@ -32,6 +33,18 @@ class post_list(ListView):
     template_name = 'blog/post_list.html'
     paginate_by = 2 
     ordering = '-created'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(body__icontains=query)
+            )
+
+        return queryset
 
 class postDetailView(DetailView):
     model           = Post

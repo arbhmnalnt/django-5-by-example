@@ -2,6 +2,15 @@
 {% block title %} list of posts{% endblock %}
 
 {% block content %}
+<form method="get">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+<hr>
+{% if request.GET.q %}
+    <p>Search results for "{{ request.GET.q }}"</p>
+{% endif %}
+<hr>
 <h1>Posts</h1>
 
 {% for post in page_obj %}
@@ -25,14 +34,14 @@
 <br>
 <div class="pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+        <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">Next</a>
     {% else %}
     {% endif %}
     
     <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+        <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">Next</a>
     {% else %}
     {% endif %}
 </div>
