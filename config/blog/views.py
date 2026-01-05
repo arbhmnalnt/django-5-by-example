@@ -5,7 +5,22 @@ from django.contrib.auth.decorators import login_required
 # from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-# Create your views here.
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Post
+from .serializers import PostSerializer
+
+class PostDetailAPIView(APIView):
+    def get(self, request, slug):
+        post = get_object_or_404(Post, slug=slug)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
+class PostListAPIView(APIView):
+    def get(self, request):
+        posts = Post.objects.order_by('-created')
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
 
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
